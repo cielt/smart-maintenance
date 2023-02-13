@@ -1,9 +1,10 @@
-const path = require("path");
-const { createFilePath } = require(`gatsby-source-filesystem`);
+const path = require('path');
+
+const { createFilePath } = require('gatsby-source-filesystem');
 
 const makePagesFromMdx = async ({ graphql, actions }) => {
   const stateMaintenancePageTemplate = path.resolve(
-    `./src/templates/state-maintenance-page.js`
+    './src/templates/state-maintenance-page.js',
   );
   const { errors, data } = await graphql(`
     {
@@ -29,7 +30,7 @@ const makePagesFromMdx = async ({ graphql, actions }) => {
 
   if (errors) {
     console.log(errors);
-    throw new Error("An error occurred");
+    throw new Error('An error occurred');
   }
 
   const states = data.allMdx.edges;
@@ -49,54 +50,14 @@ exports.createPages = async ({ graphql, actions }) => {
   await makePagesFromMdx({ graphql, actions });
 };
 
-// exports.createPages = async ({ graphql, actions, reporter }) => {
-//   const { createPage } = actions;
-//   const stateMaintenancePageTemplate = path.resolve(
-//     `./src/templates/state-maintenance-page.js`
-//   );
-//   const result = await graphql(`
-//     query {
-//       allMdx {
-//         nodes {
-//           id
-//           fields {
-//             slug
-//           }
-//           frontmatter {
-//             appName
-//           }
-//           internal {
-//             contentFilePath
-//           }
-//         }
-//       }
-//     }
-//   `);
-
-//   if (result.errors) {
-//     reporter.panicOnBuild("Error loading MDX result", result.errors);
-//   }
-
-//   // Create state maintenance pages
-//   const statePages = result.data.allMdx.nodes;
-
-//   statePages.forEach((node) => {
-//     createPage({
-//       path: node.fields.slug,
-//       component: `${stateMaintenancePageTemplate}?__contentFilePath=${node.internal.contentFilePath}`,
-//       context: { id: node.id },
-//     });
-//   });
-// };
-
 exports.onCreateNode = ({ node, getNode, actions }) => {
   const { createNodeField } = actions;
 
-  if (node.internal.type === `Mdx`) {
+  if (node.internal.type === 'Mdx') {
     const generatedSlug = createFilePath({ node, getNode });
     createNodeField({
       node,
-      name: `slug`,
+      name: 'slug',
       value: generatedSlug,
     });
   }

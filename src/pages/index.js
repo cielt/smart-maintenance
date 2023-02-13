@@ -4,8 +4,8 @@ import { useStaticQuery, graphql } from "gatsby";
 import Layout from "../components/Layout";
 import Seo from "../components/Seo";
 import DefaultMaintenanceMessage from "../components/DefaultMaintenanceMessage";
-import smiLogo from "../images/logo-smi-burgundy.svg";
 
+// TODO: add state catch-all page for non-yet-customized, unrecognized state slugs
 const IndexPage = () => {
   const { site } = useStaticQuery(
     graphql`
@@ -26,7 +26,6 @@ const IndexPage = () => {
       pageTitle={site.siteMetadata.title}
       variant="default"
       appName="SMART Child Support"
-      logoPath={smiLogo}
     >
       <Seo
         title={`${site.siteMetadata.appName} | ${site.siteMetadata.title}`}
